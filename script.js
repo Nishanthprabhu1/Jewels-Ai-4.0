@@ -1,4 +1,4 @@
-/* script.js - Jewels-Ai Atelier: Flash on Every Try-All Step */
+/* script.js - Jewels-Ai Atelier: Flash Enabled */
 
 /* --- CONFIGURATION --- */
 const API_KEY = "AIzaSyAXG3iG2oQjUA_BpnO8dK8y-MHJ7HLrhyE"; 
@@ -21,7 +21,7 @@ const videoElement = document.getElementById('webcam');
 const canvasElement = document.getElementById('overlay');
 const canvasCtx = canvasElement.getContext('2d');
 const loadingStatus = document.getElementById('loading-status');
-const flashOverlay = document.getElementById('flash-overlay'); 
+const flashOverlay = document.getElementById('flash-overlay'); // Added flash element
 
 /* App State */
 let earringImg = null, necklaceImg = null, ringImg = null, bangleImg = null;
@@ -432,6 +432,7 @@ function toggleTryAll() {
     if (autoTryRunning) {
         stopAutoTry(); 
     } else { 
+        triggerFlash(); // Trigger Flash on start
         startAutoTry(); 
     }
 }
@@ -445,8 +446,6 @@ function stopAutoTry() {
     document.getElementById('tryall-btn').textContent = "Try All";
     if (autoSnapshots.length > 0) showGallery();
 }
-
-/* UPDATED FUNCTION: Added Trigger Flash Inside Loop */
 async function runAutoStep() {
     if (!autoTryRunning) return;
     const assets = PRELOADED_IMAGES[currentType];
@@ -456,13 +455,7 @@ async function runAutoStep() {
     else if (currentType === 'chains') necklaceImg = targetImg;
     else if (currentType === 'rings') ringImg = targetImg;
     else if (currentType === 'bangles') bangleImg = targetImg;
-    
-    autoTryTimeout = setTimeout(() => { 
-        triggerFlash(); // <-- FLASH EFFECT HERE (Every Product)
-        captureToGallery(); 
-        autoTryIndex++; 
-        runAutoStep(); 
-    }, 1500); 
+    autoTryTimeout = setTimeout(() => { captureToGallery(); autoTryIndex++; runAutoStep(); }, 1500); 
 }
 
 /* --- CAPTURE & GALLERY --- */
@@ -488,7 +481,7 @@ function captureToGallery() {
 }
 
 function takeSnapshot() { 
-    triggerFlash(); // Trigger Flash manually
+    triggerFlash(); // Trigger Flash here
     const shotData = captureToGallery(); 
     currentPreviewData = shotData; 
     document.getElementById('preview-image').src = shotData.url; 
