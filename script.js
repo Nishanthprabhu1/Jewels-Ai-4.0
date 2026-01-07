@@ -1,4 +1,4 @@
-/* script.js - Jewels-Ai Atelier: Clean UI */
+/* script.js - Jewels-Ai Atelier: Flash Effect */
 
 /* --- CONFIGURATION --- */
 const API_KEY = "AIzaSyAXG3iG2oQjUA_BpnO8dK8y-MHJ7HLrhyE"; 
@@ -55,7 +55,6 @@ function initVoiceControl() {
         recognition.interimResults = false;
         recognition.lang = 'en-US';
 
-        // UI Updates removed here
         recognition.onstart = () => { };
 
         recognition.onresult = (event) => {
@@ -464,7 +463,16 @@ async function runAutoStep() {
 }
 
 /* --- CAPTURE & GALLERY --- */
+function triggerFlash() {
+    const flash = document.getElementById('flash-overlay');
+    if (flash) {
+        flash.classList.add('flash-active');
+        setTimeout(() => flash.classList.remove('flash-active'), 100);
+    }
+}
+
 function captureToGallery() {
+  triggerFlash(); // Trigger visual flash
   const tempCanvas = document.createElement('canvas');
   tempCanvas.width = videoElement.videoWidth; tempCanvas.height = videoElement.videoHeight;
   const tempCtx = tempCanvas.getContext('2d');

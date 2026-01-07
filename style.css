@@ -63,8 +63,6 @@ body {
     backdrop-filter: blur(5px);
 }
 
-/* --- VOICE INDICATOR REMOVED --- */
-
 /* --- 4. HEADER & CONTROLS --- */
 #controls-hero {
   position: fixed;
@@ -297,3 +295,17 @@ body {
 
 /* --- 10. ANIMATIONS --- */
 @keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* --- 11. FLASH EFFECT --- */
+#flash-overlay {
+    position: fixed;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    z-index: 9999;
+    pointer-events: none;
+    transition: opacity 0.15s ease-out;
+}
+#flash-overlay.flash-active {
+    opacity: 0.8; /* Bright white flash */
+}
