@@ -1,4 +1,4 @@
-/* script.js - Jewels-Ai Atelier: Fixed Voice, Physics & Auto-Select First Item */
+/* script.js - Jewels-Ai Atelier: Clean UI */
 
 /* --- CONFIGURATION --- */
 const API_KEY = "AIzaSyAXG3iG2oQjUA_BpnO8dK8y-MHJ7HLrhyE"; 
@@ -21,7 +21,6 @@ const videoElement = document.getElementById('webcam');
 const canvasElement = document.getElementById('overlay');
 const canvasCtx = canvasElement.getContext('2d');
 const loadingStatus = document.getElementById('loading-status');
-const voiceStatusText = document.getElementById('voice-status-text');
 
 /* App State */
 let earringImg = null, necklaceImg = null, ringImg = null, bangleImg = null;
@@ -45,7 +44,7 @@ let autoTryTimeout = null;
 let currentPreviewData = { url: null, name: 'Jewels-Ai_look.png' }; 
 let pendingDownloadAction = null; 
 
-/* --- 1. VOICE RECOGNITION AI (FIXED) --- */
+/* --- 1. VOICE RECOGNITION AI (Hidden UI Mode) --- */
 function initVoiceControl() {
     // 1. Check Browser Support
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -56,19 +55,13 @@ function initVoiceControl() {
         recognition.interimResults = false;
         recognition.lang = 'en-US';
 
-        recognition.onstart = () => { 
-            document.getElementById('voice-indicator').style.display = 'flex';
-            if(voiceStatusText) voiceStatusText.innerText = "Listening...";
-        };
+        // UI Updates removed here
+        recognition.onstart = () => { };
 
         recognition.onresult = (event) => {
             const command = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
-            if(voiceStatusText) voiceStatusText.innerText = `Heard: "${command}"`;
             console.log("Voice Command:", command);
             processVoiceCommand(command);
-            
-            // Reset text after 2s
-            setTimeout(() => { if(voiceStatusText) voiceStatusText.innerText = "Listening..."; }, 2000);
         };
 
         // 2. CRITICAL FIX: Restart on end (Keep-Alive)
@@ -79,15 +72,11 @@ function initVoiceControl() {
 
         recognition.onerror = (event) => { 
             console.warn("Voice Error:", event.error);
-            if (event.error === 'not-allowed') {
-                alert("Please allow microphone access for Voice Commands.");
-            }
         };
 
         try { recognition.start(); } catch(e) { console.log("Voice start error", e); }
     } else {
         console.warn("Voice API not supported in this browser.");
-        if(voiceStatusText) voiceStatusText.innerText = "Voice Not Supported";
     }
 }
 
