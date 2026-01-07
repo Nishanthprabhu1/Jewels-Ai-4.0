@@ -1,4 +1,4 @@
-/* style.css - Jewels-Ai Atelier: Premium Tech Interface */
+/* style.css - Jewels-Ai Atelier: Flash Effect Added */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap');
 
@@ -22,7 +22,28 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* --- 1. VIDEO & AR LAYERS --- */
+/* --- 1. FLASH EFFECT (NEW) --- */
+#flash-overlay {
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.flash-active {
+    display: block !important;
+    animation: flash-animation 0.25s ease-out forwards;
+}
+
+@keyframes flash-animation {
+    0% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+/* --- 2. VIDEO & AR LAYERS --- */
 #video-container { 
   position: fixed; 
   inset: 0; 
@@ -47,7 +68,7 @@ body {
   pointer-events: none; /* Let clicks pass through to video/ui */
 }
 
-/* --- 2. LOADING STATUS --- */
+/* --- 3. LOADING STATUS --- */
 #loading-status {
     position: fixed;
     top: 50%; left: 50%;
@@ -164,7 +185,7 @@ body {
 }
 .thumb-btn:active { transform: scale(0.95); border-color: var(--accent); }
 
-/* --- 7. MODALS (Preview, Gallery, Lightbox) --- */
+/* --- 6. MODALS --- */
 #preview-modal, #gallery-modal, #lightbox-overlay {
     position: fixed;
     inset: 0;
@@ -200,7 +221,6 @@ body {
     gap: 15px;
 }
 
-/* Gallery Specifics */
 .gallery-content {
     background: #111;
     width: 90%;
@@ -242,7 +262,7 @@ body {
     z-index: 2001;
 }
 
-/* --- 8. WHATSAPP MODAL --- */
+/* --- 7. WHATSAPP MODAL --- */
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 6000;
     display: none; align-items: center; justify-content: center;
@@ -277,7 +297,7 @@ body {
     background: none; border: none; color: #888; margin-top: 15px; cursor: pointer; text-decoration: underline;
 }
 
-/* --- 9. PROCESSING SPINNER --- */
+/* --- 8. PROCESSING SPINNER --- */
 #process-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 4000;
     display: none; align-items: center; justify-content: center;
@@ -293,19 +313,4 @@ body {
     animation: spin 1s linear infinite;
 }
 
-/* --- 10. ANIMATIONS --- */
 @keyframes spin { 100% { transform: rotate(360deg); } }
-
-/* --- 11. FLASH EFFECT --- */
-#flash-overlay {
-    position: fixed;
-    inset: 0;
-    background: white;
-    opacity: 0;
-    z-index: 9999;
-    pointer-events: none;
-    transition: opacity 0.15s ease-out;
-}
-#flash-overlay.flash-active {
-    opacity: 0.8; /* Bright white flash */
-}
